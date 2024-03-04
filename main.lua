@@ -1,6 +1,6 @@
 
 local composer = require("composer")
 
-composer.gotoScene("ContraCapa")
+composer.gotoScene("Capa")
 
 
