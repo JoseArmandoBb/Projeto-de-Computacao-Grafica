@@ -27,7 +27,13 @@ function scene:create( event )
   botaoproximo.y = 950
   botaoproximo.width = 100
   botaoproximo.height = 100
-
+  
+  --Botão de Som
+  local btSom = display.newImage(sceneGroup, "imagens\\gerais\\som.png")
+  btSom.x = display.contentCenterX + 250
+  btSom.y = C.MARGIN
+  btSom.width = 172
+  btSom.height = 42
 
 
   --Transicao de proximo
@@ -35,8 +41,35 @@ function scene:create( event )
     composer.gotoScene("Page01", {effect = "fromRight", time = 1000})
   end
 
-  botaoproximo:addEventListener('tap', botaoproximo.handle)
 
+local somInicio = audio.loadSound("audios\\capa.mp3")
+
+local function tocarSomInicio()
+    audio.play(somInicio)
+end
+
+local function pararSomInicio()
+    audio.stop()
+end
+
+-- Funcao para ligar e desligar o som
+local function onTouchBtSom(event)
+    if event.phase == "ended" then
+
+        local estaTocando = audio.isChannelPlaying(1)
+        if estaTocando then
+
+            pararSomInicio()
+        else
+
+            tocarSomInicio()
+        end
+    end
+    return true
+end
+
+botaoproximo:addEventListener('tap', botaoproximo.handle)
+btSom:addEventListener("touch", onTouchBtSom)
 
 end
 

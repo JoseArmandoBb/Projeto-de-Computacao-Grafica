@@ -43,6 +43,12 @@ function scene:create( event )
    voltarincio.width = 147
    voltarincio.height = 37
 
+  --Botão de Som
+  local btSom = display.newImage(sceneGroup, "imagens\\gerais\\som.png")
+  btSom.x = display.contentCenterX + 250
+  btSom.y = C.MARGIN
+  btSom.width = 172
+  btSom.height = 42
 
   --Transicao de proximo
   function botaovoltar.handle(event)
@@ -53,8 +59,36 @@ function scene:create( event )
     composer.gotoScene("Capa", {effect = "fromRight", time = 1000})
   end
 
+
+  local somInicio = audio.loadSound("audios\\ContraCapa.mp3")
+
+local function tocarSomInicio()
+    audio.play(somInicio)
+end
+
+local function pararSomInicio()
+    audio.stop()
+end
+
+-- Funcao para ligar e desligar o som
+local function onTouchBtSom(event)
+    if event.phase == "ended" then
+
+        local estaTocando = audio.isChannelPlaying(1)
+        if estaTocando then
+
+            pararSomInicio()
+        else
+
+            tocarSomInicio()
+        end
+    end
+    return true
+end
+
   botaovoltar:addEventListener('tap', botaovoltar.handle)
   voltarincio:addEventListener('tap', voltarincio.handle)
+  btSom:addEventListener("touch", onTouchBtSom)
 
 
 end
